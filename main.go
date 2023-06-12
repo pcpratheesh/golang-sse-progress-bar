@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,18 +18,11 @@ func main() {
 	router.SetHTMLTemplate(templ)
 	router.StaticFS("/public", http.FS(f))
 
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"*"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
-
 	// SSE endpoint
 	router.GET("/", func(ctx *gin.Context) {
 		ctx.HTML(http.StatusOK, "index.tpl", nil)
 	})
-	router.GET("/upload-progress", progressor)
+	router.GET("/progress", progressor)
 
 	// Start the server
 	if err := router.Run(":8080"); err != nil {

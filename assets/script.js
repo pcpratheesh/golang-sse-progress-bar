@@ -1,9 +1,7 @@
-console.log("sss")
-const eventSource = new EventSource('http://localhost:8080/upload-progress');
+const eventSource = new EventSource('progress');
 
 eventSource.addEventListener('progress', function (event) {
     const data = JSON.parse(event.data)
-    console.log("progress event : ",data); // Handle progress updates here
 
     if (data.currentTask != undefined) {
         progressBar(data)
@@ -41,10 +39,6 @@ function closeEventStream(){
     console.log("event stream closed")
     eventSource.close() 
 }
-// To close the SSE connection manually
-// don't close it
-// eventSource.close() 
-
 
 function progressBar(data){
 
